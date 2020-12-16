@@ -1,17 +1,32 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <TaskList :tasks="tasks"></TaskList>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TaskList from './components/TaskList.vue'
+//import Background from './components/Background.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    TaskList,
+    //Background,
+  },
+  data() {
+    return {
+      tasks: [
+        {
+          title: 'Make todo list',
+          completed: true
+        },
+        {
+          title: 'Go skydiving',
+          completed: false
+        }
+      ]
+    }
   }
 }
 </script>
@@ -24,5 +39,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+
+  z-index: 999;
 }
 </style>
