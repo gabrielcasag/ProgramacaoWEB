@@ -1,168 +1,131 @@
-<template id="task-list">
-    <section class="tasks">
-      <h1>
-        Tasks 
-        <transition name="fade">
-          <small v-if="incomplete">({{ incomplete }})</small>
-        </transition>
-        
-      </h1>
-      <div class="tasks__new input-group">
-        <input type="text"
-               class="input-group-field"
-               v-model="newTask"
-               @keyup.enter="addTask"
-               placeholder="New task"
-        >
-        <span class="input-group-button">
-          <button @click="addTask" 
-                  class="button"
-          >
-            <i class="fa fa-plus"></i> Add
-          </button>
-        </span>
-      </div>
+<template>
+  <div class="hello">
+    <div id="container">
+      <img alt="user" src="../assets/user.svg">
+      <br>
+      <span>Olá, Gabriel!</span>
+      <br>
+      <ul>
+        <li v-for="(task, index) in tasks"
+          @click="removeTask(index)"
+          @complete="completeTask(task)"
+          :task="task"
+          :key="task">
+            {{task}}
+        <input type="checkbox" >
 
-      <div class="tasks__clear button-group pull-right">
-        <button class="button warning small"
-                @click="clearCompleted"
-        >
-          <i class="fa fa-check"></i> Clear Completed
-        </button>
-        <button class="button alert small"
-                @click="clearAll"
-        >
-          <i class="fa fa-trash"></i> Clear All
-        </button>
-      </div>
-      
-      <transition-group name="fade" tag="ul" class="tasks__list no-bullet">
-          <task-item v-for="(task, index) in tasks"
-                     @remove="removeTask(index)"
-                     @complete="completeTask(task)"
-                     :task="task"
-                     :key="task"
-          ></task-item>
-      </transition-group>
-    </section>
+        </li>
+      </ul>
+  
+
+
+      <br>
+      <button @click="add">+</button>  
+    </div>
+  </div>
 </template>
 
 <script>
-  export default {
-    template: '#task-list',
-    props: {
-      tasks1: {default: []}
+export default {
+  name: 'TaskList',
+  props: {
+    msg: String
+  },
+  data() {
+    return {
+      tasks: [],
+    }
+  },
+  methods: {
+    add() {
+      this.tasks.push("aaa");
     },
-    data() {
-      return {
-        tasks: [],
-        newTask: ''
-      };
-    },
-    computed: {
-      incomplete() {
-        return this.tasks.filter(this.inProgress).length;
-      }
-    },
-    methods: {
-      addTask() {
-        if (this.newTask) {
-          this.tasks.push({
-            title: this.newTask,
-            completed: false
-          });
-          this.newTask = '';
-        }
-      },
-      completeTask(task) {
-        task.completed = ! task.completed;
-      },
-      removeTask(index) {
-        this.tasks.splice(index, 1);
-      },
-      clearCompleted() {
-        this.tasks = this.tasks.filter(this.inProgress);
-      },
-      clearAll() {
-        this.tasks = [];
-      },
-      
-      inProgress(task) {
-        return ! this.isCompleted(task);
-      },
-      isCompleted(task) {
-        return task.completed;
-      }
+    removeTask(index) {
+      this.tasks.splice(index, 1);
     }
   }
-
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-body {
-  background-color: #abc;
+<style scoped>
+.hello {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-*,
-h1,
-button {
-  font-family: 'Nunito', sans-serif;
+
+#container {
+  width: 40vw;
+  height: 80vh;
+  
+  border: 1px solid #333333;
+  border-radius: 2rem;
+  
+  background-color: white;
+
+  z-index: 99;
 }
-.fade-enter-active,
-.fade-leave-active {
-  -webkit-transition: opacity 0.5s;
-  transition: opacity 0.5s;
+
+img {
+  margin-top: 1rem;
+  width: 4rem;
+  height: 4rem;
 }
-.fade-enter,
-.fade-leave-active {
-  opacity: 0;
+
+span {
+  font-weight: bold;
 }
-.tasks {
-  width: 100%;
-  max-width: 45rem;
-  padding: 1em;
-  margin: 1em auto;
+
+p {
+  float: left;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  width: 70%;
+  height: 2rem;
+  margin: 1rem auto;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   overflow: auto;
   background-color: #fff;
   box-shadow: 0px 0.25rem 1rem rgba(0,0,0,0.25);
 }
-.tasks__list {
-  clear: both;
-}
-.tasks__item {
-  margin-bottom: 0.5em;
-  position: relative;
-}
-.tasks__item__toggle {
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-  padding: 0.85em 2.25em 0.85em 1em;
-  background-color: rgba(0,0,0,0.05);
-  border: 1px solid rgba(0,0,0,0.1);
-}
-.tasks__item__toggle:hover {
-  background-color: rgba(0,0,0,0.1);
-  border-color: rgba(0,0,0,0.15);
-}
-.tasks__item__toggle--completed {
+
+li:hover {
   text-decoration: line-through;
-  background-color: rgba(0,128,0,0.15);
-  border-color: rgba(0,128,0,0.2);
+  cursor: pointer;
 }
-.tasks__item__toggle--completed:hover {
-  background-color: rgba(0,128,0,0.25);
-  border-color: rgba(0,128,0,0.3);
+
+button {  
+  background-color: #409EFF;
+  color: white;
+  font-size: 20px;
+  border: none;
+
+  position: relative;
+
+  width: 6rem;
+  height: 2rem;
+  border-radius: 2rem;
+
+  transition: all 0.2s ease;
+
+  border: none;
+  outline:none;
 }
-.tasks__item__remove {
-  position: absolute;
-  height: 100%;
-  top: 50%;
-  right: 0;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-}
-.tasks__item__remove i {
-  vertical-align: middle;
+
+button:hover {
+  cursor: pointer;
+  width: 6.4rem;
+  box-shadow: 0 0 10px rgba(33,33,33,.4); 
 }
 </style>

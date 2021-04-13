@@ -1,32 +1,19 @@
 <template>
   <div id="app">
-    <TaskList :tasks="tasks"></TaskList>
+    <Background />
+    <TaskList msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
 <script>
 import TaskList from './components/TaskList.vue'
-//import Background from './components/Background.vue'
+import Background from './components/Background.vue'
 
 export default {
   name: 'App',
   components: {
     TaskList,
-    //Background,
-  },
-  data() {
-    return {
-      tasks: [
-        {
-          title: 'Make todo list',
-          completed: true
-        },
-        {
-          title: 'Go skydiving',
-          completed: false
-        }
-      ]
-    }
+    Background,
   }
 }
 </script>
